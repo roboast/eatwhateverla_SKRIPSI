@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="selamat_datang">Selamat datang!</string>
+    <string name="bingung_mau_makan_apa">Bingung mau makan apa?</string>
+    <string name="apa_yang_ingin_anda_makan">Apa yang ingin anda makan?</string>
+    <string name="mood">Mood terkini</string>
+    <string name="title_activity_maps">Map</string>
+</resources>
