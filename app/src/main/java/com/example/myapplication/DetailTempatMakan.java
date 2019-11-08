@@ -21,6 +21,7 @@ public class DetailTempatMakan extends AppCompatActivity implements OnMapReadyCa
     private ImageView iv_gambar;
     private TextView tv_deskripsi;
     private TextView tv_alamat;
+    private SupportMapFragment mapFragment;
     private GoogleMap gMap;
 
     @Override
@@ -32,7 +33,7 @@ public class DetailTempatMakan extends AppCompatActivity implements OnMapReadyCa
         tv_alamat = findViewById(R.id.tv_alamat);
         tv_deskripsi = findViewById(R.id.tv_deskripsi);
         iv_gambar = findViewById(R.id.gambar_tempat);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         getTempat();
 
