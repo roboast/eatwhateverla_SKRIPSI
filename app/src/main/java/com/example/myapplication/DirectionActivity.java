@@ -1,7 +1,6 @@
 package com.example.myapplication;
 
 import android.graphics.Color;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
@@ -33,19 +32,19 @@ public class DirectionActivity extends AppCompatActivity implements OnMapReadyCa
     private LatLng pickUpLatLng = new LatLng(-6.175110, 106.865039); // Jakarta
     private LatLng locationLatLng = new LatLng(-6.197301,106.795951); // Cirebon
     private String API_KEY = "AIzaSyDmL-1tnQwKfLHiG_Ha_pKaObmbDhWztqY";
-    //private TextView tvdist, tvdur;
+    private TextView tvdist, tvdur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_direction);
 
-       // tvdist = findViewById(R.id.tv_distance);
-        //tvdur = findViewById(R.id.tv_duration);
+       tvdist = findViewById(R.id.tvd_jarak);
+       tvdur = findViewById(R.id.tvd_durasi);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        getDirection();
+       getDirection();
     }
 
 
@@ -79,17 +78,15 @@ public class DirectionActivity extends AppCompatActivity implements OnMapReadyCa
                     mMap.addMarker(new MarkerOptions().position(pickUpLatLng).title("Lokasi Awal"));
                     mMap.addMarker(new MarkerOptions().position(locationLatLng).title("Lokasi Akhir"));
                     // Dapatkan jarak dan waktu
-                    //Distance dataDistance = dataLegs.getDistance();
-                    //Duration dataDuration = dataLegs.getDuration();
+                    Distance dataDistance = dataLegs.getDistance();
+                    Duration dataDuration = dataLegs.getDuration();
 
                     // Set Nilai Ke Widget
 
 
-                   // tvdist.setText("distance : " + dataDistance.getText() + " (" + dataDistance.getValue() + ")");
-                    //tvdur.setText("duration : " + dataDuration.getText() + " (" + dataDuration.getValue() + ")");
-                    /** START
-                     * Logic untuk membuat layar berada ditengah2 dua koordinat
-                     */
+                   tvdist.setText("Jarak: " + dataDistance.getText());
+                   tvdur.setText("Durasi : " + dataDuration.getText());
+
 
                     LatLngBounds.Builder latLongBuilder = new LatLngBounds.Builder();
                     latLongBuilder.include(pickUpLatLng);
@@ -111,11 +108,8 @@ public class DirectionActivity extends AppCompatActivity implements OnMapReadyCa
                 t.printStackTrace();
             }
         });
-
-
-
-
     }
+
 
 
     @Override

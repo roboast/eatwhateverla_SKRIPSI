@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +9,6 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -57,5 +57,13 @@ public class DetailTempatMakan extends AppCompatActivity implements OnMapReadyCa
         LatLng ll = new LatLng(tempatMakan.getLatitude(),tempatMakan.getLongitude());
         gMap.addMarker(new MarkerOptions().position(ll).title(tempatMakan.getNama_tempat()));
         gMap.moveCamera(CameraUpdateFactory.newLatLng(ll));
+
+        gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                Intent intent = new Intent(DetailTempatMakan.this, DirectionActivity.class);
+
+            }
+        });
     }
 }

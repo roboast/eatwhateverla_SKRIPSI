@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,6 +11,47 @@
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="match_parent" />
 
-</RelativeLayout>
+    <android.support.design.card.MaterialCardView
+        android:layout_width="360dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="500dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="100dp"
+        android:layoutMode="clipBounds"
+        app:cardCornerRadius="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/map"
+        app:layout_constraintEnd_toStartOf="@+id/map"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:id="@+id/tvd_jarak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="-20dp"
+            android:fontFamily="@font/lato_black"
+            android:textColor="#769FCD"
+            android:textSize="18sp"
+            tools:text="Jarak: " />
+
+        <TextView
+            android:id="@+id/tvd_durasi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/lato_black"
+            android:gravity="center"
+            android:textColor="#769FCD"
+            android:textSize="18sp"
+            tools:text="Durasi:" />
+
+    </android.support.design.card.MaterialCardView>
+
+</android.support.constraint.ConstraintLayout>

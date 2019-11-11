@@ -11,15 +11,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.myapplication.response.Kuliner;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class AdapterTempatMakan extends RecyclerView.Adapter<AdapterTempatMakan.ViewHolder> {
-    private final ArrayList<TempatMakan> daftarMakan;
+    private final ArrayList<Kuliner> daftarMakan;
     private final Context context;
 
-    public AdapterTempatMakan(ArrayList<TempatMakan> tempatMakans, Context context) {
+    public AdapterTempatMakan(ArrayList<Kuliner> tempatMakans, Context context) {
         daftarMakan = tempatMakans;
         this.context = context;
     }
@@ -48,20 +50,20 @@ public class AdapterTempatMakan extends RecyclerView.Adapter<AdapterTempatMakan.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        String nama = daftarMakan.get(position).getNama_tempat();
-        double jarak = daftarMakan.get(position).getJarak();
-        String url_gambar = daftarMakan.get(position).getUrl_gambar();
+        String nama = daftarMakan.get(position).getNamaKuliner();
+        String jarak = daftarMakan.get(position).getJarak();
+        String url_gambar = daftarMakan.get(position).getGambar();
 
 
         holder.tv_nama.setText(nama);
-        holder.tv_jarak.setText(String.valueOf(jarak)+" km");
+        holder.tv_jarak.setText(jarak +" km");
         Picasso.get().load(url_gambar).into(holder.iv_gambar);
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, DetailTempatMakan.class);
-                intent.putExtra(DetailTempatMakan.EXTRA_TEMPAT_MAKAN, daftarMakan.get(position));
+                intent.putExtra(DetailTempatMakan.EXTRA_TEMPAT_MAKAN, (Serializable) daftarMakan.get(position));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

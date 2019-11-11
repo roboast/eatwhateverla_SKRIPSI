@@ -93,7 +93,10 @@ public class MainActivity extends AppCompatActivity {
         final Intent intent = new Intent(MainActivity.this, UserPrefMood.class);
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("Url", url);
-        final String reqBody = jsonObject.toString();
+
+        //ApiServices apiServices = InitRetrofit.getInstanceAzure();
+        //Call<ArrayList<Kuliner>> getAllRekom = apiServices.getRekom(latitude,longitude);
+        /**final String reqBody = jsonObject.toString();
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         String URL = "https://skripsi.cognitiveservices.azure.com/face/v1.0/detect?returnFaceAttributes=emotion";
@@ -164,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         Volley.newRequestQueue(this).add(stringRequest);
+         */
     }
 
 
