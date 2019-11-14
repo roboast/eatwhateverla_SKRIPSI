@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.myapplication.response.Kuliner;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -41,21 +42,21 @@ public class DetailTempatMakan extends AppCompatActivity implements OnMapReadyCa
     }
 
     void getTempat(){
-        TempatMakan tempatMakan = getIntent().getParcelableExtra(EXTRA_TEMPAT_MAKAN);
-        tv_nama.setText(tempatMakan.getNama_tempat());
+        Kuliner tempatMakan = getIntent().getParcelableExtra(EXTRA_TEMPAT_MAKAN);
+        tv_nama.setText(tempatMakan.getNamaKuliner());
         tv_alamat.setText(tempatMakan.getDeskripsi());
         tv_deskripsi.setText(tempatMakan.getDeskripsi());
-        Picasso.get().load(tempatMakan.getUrl_gambar()).into(iv_gambar);
+        Picasso.get().load(tempatMakan.getGambar()).into(iv_gambar);
 
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        TempatMakan tempatMakan = getIntent().getParcelableExtra(EXTRA_TEMPAT_MAKAN);
+        Kuliner tempatMakan = getIntent().getParcelableExtra(EXTRA_TEMPAT_MAKAN);
         gMap = googleMap;
         gMap.setMinZoomPreference(15);
         LatLng ll = new LatLng(tempatMakan.getLatitude(),tempatMakan.getLongitude());
-        gMap.addMarker(new MarkerOptions().position(ll).title(tempatMakan.getNama_tempat()));
+        gMap.addMarker(new MarkerOptions().position(ll).title(tempatMakan.getNamaKuliner()));
         gMap.moveCamera(CameraUpdateFactory.newLatLng(ll));
 
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {

@@ -41,9 +41,9 @@ public class UserPrefMood extends AppCompatActivity implements LocationListener 
 
         textView = findViewById(R.id.tv_tanya);
 
-        //String emo = getIntent().getStringExtra("emosi");
+        String emo = getIntent().getStringExtra("emosi");
 
-        textView.setText("Emosi anda sekarang adalah: ");
+        textView.setText("Emosi anda sekarang adalah: "+emo);
         cekLokasi();
     }
 

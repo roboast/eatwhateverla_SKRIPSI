@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.card.MaterialCardView;
 import android.support.v7.widget.RecyclerView;
@@ -63,7 +64,7 @@ public class AdapterTempatMakan extends RecyclerView.Adapter<AdapterTempatMakan.
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, DetailTempatMakan.class);
-                intent.putExtra(DetailTempatMakan.EXTRA_TEMPAT_MAKAN, (Serializable) daftarMakan.get(position));
+                intent.putExtra(DetailTempatMakan.EXTRA_TEMPAT_MAKAN, daftarMakan.get(position));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
