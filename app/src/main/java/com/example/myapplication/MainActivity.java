@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import com.example.myapplication.response.ResponseAzure;
 import com.example.myapplication.response.ResponseFoto;
+import com.example.myapplication.response.ResponseGambar;
 import com.google.gson.JsonObject;
 
 import java.io.ByteArrayOutputStream;
@@ -50,9 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
         btn_ambil_foto = findViewById(R.id.btn_ambil_foto);
 
-
-
-
             btn_ambil_foto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -63,12 +61,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-        private File createTempFile(Bitmap bitmap) {
+    private File createTempFile(Bitmap bitmap) {
             File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-                    , System.currentTimeMillis() +"_image.webp");
+                    , System.currentTimeMillis() +"_image.jpeg");
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
-            bitmap.compress(Bitmap.CompressFormat.WEBP,0, bos);
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100, bos);
             byte[] bitmapdata = bos.toByteArray();
             //write the bytes in file
 
@@ -83,25 +81,24 @@ public class MainActivity extends AppCompatActivity {
             return file;
         }
 
-
     void uploadImage(Bitmap gambarbitmap){
-        final String desc = "1212";
+        //final String desc = "1212";
         File file = createTempFile(gambarbitmap);
-        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("foto", file.getName(), requestFile);
-        RequestBody descBody = RequestBody.create(MediaType.parse("text/plain"), desc);
+        final RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("fileToUpload", file.getName(), requestFile);
+        RequestBody descBody = RequestBody.create(MediaType.parse("text/plain"), "109");
 
         ApiServices apiServices = InitRetrofit.getInstanceCF();
-        Call<ResponseFoto> up = apiServices.uploadFoto(descBody,body);
-        up.enqueue(new Callback<ResponseFoto>() {
+        Call<ResponseGambar> up = apiServices.up(descBody,body);
+        up.enqueue(new Callback<ResponseGambar>() {
             @Override
-            public void onResponse(Call<ResponseFoto> call, Response<ResponseFoto> response) {
-                Toast.makeText(getApplicationContext(), "Berhasil", Toast.LENGTH_LONG).show();
-                getEmosi("https://makanla.000webhostapp.com/foto.php?id_user="+desc);
+            public void onResponse(Call<ResponseGambar> call, Response<ResponseGambar> response) {
+                Toast.makeText(getApplicationContext(), response.body().getResult(), Toast.LENGTH_LONG).show();
+                //getEmosi("https://makanla.000webhostapp.com/foto.php?id_user="+desc);
             }
 
             @Override
-            public void onFailure(Call<ResponseFoto> call, Throwable t) {
+            public void onFailure(Call<ResponseGambar> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
@@ -159,6 +156,10 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == CAMERA_REQUEST) {
             Bitmap mphoto = (Bitmap) data.getExtras().get("data");
             uploadImage(mphoto);
+//            Bundle extras = data.getExtras();
+//            Bitmap imageBitmap = (Bitmap) extras.get("data");
+//            Uri tempUri = getImageUri(getApplicationContext(), imageBitmap);
+//            uploadImage(tempUri);
         }
     }
 }

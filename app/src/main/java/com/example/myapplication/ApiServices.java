@@ -5,6 +5,7 @@ import com.example.myapplication.response.FaceAttributes;
 import com.example.myapplication.response.Kuliner;
 import com.example.myapplication.response.ResponseAzure;
 import com.example.myapplication.response.ResponseFoto;
+import com.example.myapplication.response.ResponseGambar;
 import com.example.myapplication.response.ResponseRoute;
 import com.google.gson.JsonObject;
 
@@ -46,8 +47,15 @@ public interface ApiServices {
 
     @Multipart
     @POST("uploadfoto.php")
-    Call<ResponseFoto> uploadFoto(
+    Call<ResponseGambar> uploadFoto(
             @Part ("id_user") RequestBody iduser,
             @Part MultipartBody.Part foto
+    );
+
+    @Multipart
+    @POST("upload.php")
+    Call<ResponseGambar> up (
+            @Part ("id") RequestBody id,
+            @Part MultipartBody.Part fileToUpload
     );
 }
