@@ -1,38 +1,60 @@
 package com.example.myapplication;
 
 import android.Manifest;
-import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.myapplication.response.Kuliner;
-import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+
 import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserPrefMood extends AppCompatActivity implements LocationListener {
+public class UserPrefMood extends AppCompatActivity  {
     private TextView textView;
+    private ImageView back, home;
     private RecyclerView rv;
     private RecyclerView.Adapter adapter;
-    private LocationManager locationManager;
+    private FusedLocationProviderClient mFusedLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_pref_mood);
+        back = findViewById(R.id.btn_back);
+        home = findViewById(R.id.btn_home);
 
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserPrefMood.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         rv = findViewById(R.id.rv_makan);
         rv.setHasFixedSize(true);
@@ -52,10 +74,14 @@ public class UserPrefMood extends AppCompatActivity implements LocationListener 
             ActivityCompat.requestPermissions( this, new String[] {  Manifest.permission.ACCESS_FINE_LOCATION  }, 1 );
         }
         else {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,2000,1, this);
+            mFusedLocationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    getMakan(location.getLatitude(),location.getLongitude());
+                }
+            });
         }
     }
-
 
     void getMakan(final double lat, final double longi){
         String latitude = String.valueOf(lat);
@@ -89,26 +115,5 @@ public class UserPrefMood extends AppCompatActivity implements LocationListener 
         } else {
             Toast.makeText(getApplicationContext(), "Nyalakan",Toast.LENGTH_LONG).show();
         }
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        String msg = "Latitude: "+location.getLatitude()+" Longitude: "+location.getLongitude();
-        getMakan(location.getLatitude(),location.getLongitude());
-    }
-
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-
     }
 }

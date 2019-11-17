@@ -57,4 +57,11 @@
             android:background="@drawable/btn_awal" />
     </android.support.design.card.MaterialCardView>
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:visibility="invisible" />
+
 </LinearLayout>

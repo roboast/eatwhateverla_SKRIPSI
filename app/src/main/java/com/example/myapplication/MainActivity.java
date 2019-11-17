@@ -1,9 +1,6 @@
 package com.example.myapplication;
-
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -12,9 +9,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.example.myapplication.response.ResponseAzure;
-import com.example.myapplication.response.ResponseFoto;
 import com.example.myapplication.response.ResponseGambar;
 import com.google.gson.JsonObject;
 
@@ -35,41 +32,32 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private Button btn_ambil_foto;
+    private ProgressBar progressBar;
     private static final int CAMERA_REQUEST = 0;
-
-
-    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        imageView = findViewById(R.id.imageView);
-
-
-
         btn_ambil_foto = findViewById(R.id.btn_ambil_foto);
+        progressBar = findViewById(R.id.progress_bar);
 
-            btn_ambil_foto.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                        startActivityForResult(takePictureIntent, CAMERA_REQUEST);
-                    }
+        btn_ambil_foto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(takePictureIntent, CAMERA_REQUEST);
                 }
-            });
-        }
+            }
+        });
+    }
     private File createTempFile(Bitmap bitmap) {
-            File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-                    , System.currentTimeMillis() +"_image.jpeg");
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), System.currentTimeMillis() +"_image.jpeg");
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
-            bitmap.compress(Bitmap.CompressFormat.JPEG,100, bos);
-            byte[] bitmapdata = bos.toByteArray();
-            //write the bytes in file
-
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100, bos);
+        byte[] bitmapdata = bos.toByteArray();
             try {
                 FileOutputStream fos = new FileOutputStream(file);
                 fos.write(bitmapdata);
@@ -79,22 +67,19 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             return file;
-        }
-
+    }
     void uploadImage(Bitmap gambarbitmap){
-        //final String desc = "1212";
         File file = createTempFile(gambarbitmap);
         final RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
         MultipartBody.Part body = MultipartBody.Part.createFormData("fileToUpload", file.getName(), requestFile);
-        RequestBody descBody = RequestBody.create(MediaType.parse("text/plain"), "109");
+        RequestBody descBody = RequestBody.create(MediaType.parse("text/plain"), "ewl");
 
         ApiServices apiServices = InitRetrofit.getInstanceCF();
-        Call<ResponseGambar> up = apiServices.up(descBody,body);
+        Call<ResponseGambar> up = apiServices.uploadPhoto(descBody,body);
         up.enqueue(new Callback<ResponseGambar>() {
             @Override
             public void onResponse(Call<ResponseGambar> call, Response<ResponseGambar> response) {
-                Toast.makeText(getApplicationContext(), response.body().getResult(), Toast.LENGTH_LONG).show();
-                //getEmosi("https://makanla.000webhostapp.com/foto.php?id_user="+desc);
+                getEmosi("https://makanla.000webhostapp.com/tempat/images/ewl"+response.body().getResult());
             }
 
             @Override
@@ -115,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArrayList<ResponseAzure>> call, Response<ArrayList<ResponseAzure>>response) {
                 if (response.isSuccessful()){
-                    //Toast.makeText(getApplicationContext(), String.valueOf(response.body().get(0).getFaceAttributes().getEmotion().getAnger()), Toast.LENGTH_LONG).show();
                     List<Double> list = new ArrayList<>();
 
                     list.add(response.body().get(0).getFaceAttributes().getEmotion().getAnger());
@@ -138,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
                     else {
                         emosi = "Gagal mendeteksi";
                     }
+                    progressBar.setVisibility(View.GONE);
                     intent.putExtra("emosi", emosi);
                     startActivity(intent);
                 }
@@ -149,17 +134,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST) {
             Bitmap mphoto = (Bitmap) data.getExtras().get("data");
+            progressBar.setVisibility(View.VISIBLE);
             uploadImage(mphoto);
-//            Bundle extras = data.getExtras();
-//            Bitmap imageBitmap = (Bitmap) extras.get("data");
-//            Uri tempUri = getImageUri(getApplicationContext(), imageBitmap);
-//            uploadImage(tempUri);
         }
     }
 }

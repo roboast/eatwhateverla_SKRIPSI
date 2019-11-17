@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.squareup.picasso.Picasso;
 
 public class DetailTempatMakan extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_TEMPAT_MAKAN = "extra_tempat_makan";
+    private ImageView back, home;
     private TextView tv_nama;
     private ImageView iv_gambar;
     private TextView tv_deskripsi;
@@ -30,6 +32,24 @@ public class DetailTempatMakan extends AppCompatActivity implements OnMapReadyCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_tempat);
 
+        back = findViewById(R.id.btn_back);
+        home = findViewById(R.id.btn_home);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DetailTempatMakan.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
         tv_nama = findViewById(R.id.tv_nama_tempat);
         tv_alamat = findViewById(R.id.tv_alamat);
         tv_deskripsi = findViewById(R.id.tv_deskripsi);
@@ -37,8 +57,6 @@ public class DetailTempatMakan extends AppCompatActivity implements OnMapReadyCa
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         getTempat();
-
-
     }
 
     void getTempat(){
@@ -47,7 +65,6 @@ public class DetailTempatMakan extends AppCompatActivity implements OnMapReadyCa
         tv_alamat.setText(tempatMakan.getDeskripsi());
         tv_deskripsi.setText(tempatMakan.getDeskripsi());
         Picasso.get().load(tempatMakan.getGambar()).into(iv_gambar);
-
     }
 
     @Override
@@ -55,7 +72,7 @@ public class DetailTempatMakan extends AppCompatActivity implements OnMapReadyCa
         Kuliner tempatMakan = getIntent().getParcelableExtra(EXTRA_TEMPAT_MAKAN);
         gMap = googleMap;
         gMap.setMinZoomPreference(15);
-        LatLng ll = new LatLng(tempatMakan.getLatitude(),tempatMakan.getLongitude());
+        final LatLng ll = new LatLng(tempatMakan.getLatitude(),tempatMakan.getLongitude());
         gMap.addMarker(new MarkerOptions().position(ll).title(tempatMakan.getNamaKuliner()));
         gMap.moveCamera(CameraUpdateFactory.newLatLng(ll));
 
@@ -63,7 +80,9 @@ public class DetailTempatMakan extends AppCompatActivity implements OnMapReadyCa
             @Override
             public void onMapClick(LatLng latLng) {
                 Intent intent = new Intent(DetailTempatMakan.this, DirectionActivity.class);
-
+                intent.putExtra("latDest", ll.latitude);
+                intent.putExtra("lngDest", ll.longitude);
+                startActivity(intent);
             }
         });
     }

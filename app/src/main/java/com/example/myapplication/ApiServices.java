@@ -46,15 +46,8 @@ public interface ApiServices {
     );
 
     @Multipart
-    @POST("uploadfoto.php")
-    Call<ResponseGambar> uploadFoto(
-            @Part ("id_user") RequestBody iduser,
-            @Part MultipartBody.Part foto
-    );
-
-    @Multipart
     @POST("upload.php")
-    Call<ResponseGambar> up (
+    Call<ResponseGambar> uploadPhoto (
             @Part ("id") RequestBody id,
             @Part MultipartBody.Part fileToUpload
     );
