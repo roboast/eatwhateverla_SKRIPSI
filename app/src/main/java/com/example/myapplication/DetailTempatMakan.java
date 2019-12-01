@@ -62,7 +62,7 @@ public class DetailTempatMakan extends AppCompatActivity implements OnMapReadyCa
     void getTempat(){
         Kuliner tempatMakan = getIntent().getParcelableExtra(EXTRA_TEMPAT_MAKAN);
         tv_nama.setText(tempatMakan.getNamaKuliner());
-        tv_alamat.setText(tempatMakan.getDeskripsi());
+        tv_alamat.setText(tempatMakan.getAlamat());
         tv_deskripsi.setText(tempatMakan.getDeskripsi());
         Picasso.get().load(tempatMakan.getGambar()).into(iv_gambar);
     }

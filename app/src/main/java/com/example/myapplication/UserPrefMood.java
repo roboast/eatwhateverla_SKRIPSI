@@ -86,9 +86,10 @@ public class UserPrefMood extends AppCompatActivity  {
     void getMakan(final double lat, final double longi){
         String latitude = String.valueOf(lat);
         String longitude = String.valueOf(longi);
+        String emo = getIntent().getStringExtra("emosi");
 
-        ApiServices apiServices = InitRetrofit.getInstanceCF();
-        Call<ArrayList<Kuliner>> getAllRekom = apiServices.getRekom(latitude,longitude);
+        ApiServices apiServices = InitRetrofit.getInstanceWebService();
+        Call<ArrayList<Kuliner>> getAllRekom = apiServices.getRekom(emo,latitude,longitude);
 
         getAllRekom.enqueue(new Callback<ArrayList<Kuliner>>() {
             @Override

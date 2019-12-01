@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         MultipartBody.Part body = MultipartBody.Part.createFormData("fileToUpload", file.getName(), requestFile);
         RequestBody descBody = RequestBody.create(MediaType.parse("text/plain"), "ewl");
 
-        ApiServices apiServices = InitRetrofit.getInstanceCF();
+        ApiServices apiServices = InitRetrofit.getInstanceWebService();
         Call<ResponseGambar> up = apiServices.uploadPhoto(descBody,body);
         up.enqueue(new Callback<ResponseGambar>() {
             @Override
@@ -112,13 +112,13 @@ public class MainActivity extends AppCompatActivity {
                     String emosi;
 
                     if (max == response.body().get(0).getFaceAttributes().getEmotion().getAnger())
-                        emosi = "Marah";
+                        emosi = "marah";
                     else if (max == response.body().get(0).getFaceAttributes().getEmotion().getHappiness())
-                        emosi = "Senang";
+                        emosi = "senang";
                     else if (max == response.body().get(0).getFaceAttributes().getEmotion().getNeutral())
-                        emosi = "Biasa";
+                        emosi = "biasa";
                     else if (max == response.body().get(0).getFaceAttributes().getEmotion().getSadness())
-                        emosi = "Sedih";
+                        emosi = "sedih";
                     else {
                         emosi = "Gagal mendeteksi";
                     }

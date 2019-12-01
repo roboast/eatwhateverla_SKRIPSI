@@ -34,6 +34,7 @@ public interface ApiServices {
 
     @GET("cfmakan.php")
     Call<ArrayList<Kuliner>> getRekom(
+            @Query("mood") String mood,
             @Query("lat") String lat,
             @Query("long") String longi
     );

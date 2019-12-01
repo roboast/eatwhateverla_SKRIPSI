@@ -80,7 +80,7 @@ public class DirectionActivity extends AppCompatActivity implements OnMapReadyCa
         final LatLng now = new LatLng(latNow,lngNow);
         final LatLng dest = new LatLng(latdest,lngdest);
 
-        ApiServices api = InitRetrofit.getInstance();
+        ApiServices api = InitRetrofit.getInstanceMaps();
         Call<ResponseRoute> routeRequest = api.request_route(latNow + "," + lngNow, latdest + "," + lngdest,"now", API_KEY);
         routeRequest.enqueue(new Callback<ResponseRoute>() {
             @Override

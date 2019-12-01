@@ -20,6 +20,9 @@ public class Kuliner implements Parcelable {
 	@SerializedName("gambar")
 	private String gambar;
 
+	@SerializedName("alamat")
+	private String alamat;
+
 	@SerializedName("0")
 	private String jsonMember0;
 
@@ -37,6 +40,9 @@ public class Kuliner implements Parcelable {
 
 	@SerializedName("5")
 	private String jsonMember5;
+
+	@SerializedName("6")
+	private String jsonMember6;
 
 	@SerializedName("nama_kuliner")
 	private String namaKuliner;
@@ -77,6 +83,14 @@ public class Kuliner implements Parcelable {
 
 	public String getGambar(){
 		return gambar;
+	}
+
+	public void setAlamat(String alamat){
+		this.alamat = alamat;
+	}
+
+	public String getAlamat(){
+		return alamat;
 	}
 
 	public void setJsonMember0(String jsonMember0){
@@ -126,6 +140,13 @@ public class Kuliner implements Parcelable {
 	public String getJsonMember5(){
 		return jsonMember5;
 	}
+	public void setJsonMember6(String jsonMember5){
+		this.jsonMember5 = jsonMember5;
+	}
+
+	public String getJsonMember6(){
+		return jsonMember5;
+	}
 
 	public void setNamaKuliner(String namaKuliner){
 		this.namaKuliner = namaKuliner;
@@ -153,22 +174,23 @@ public class Kuliner implements Parcelable {
 
 	@Override
  	public String toString(){
-		return 
-			"Kuliner{" + 
-			"cf = '" + cf + '\'' + 
-			",jarak = '" + jarak + '\'' + 
-			",latitude = '" + latitude + '\'' + 
-			",gambar = '" + gambar + '\'' + 
-			",0 = '" + jsonMember0 + '\'' + 
-			",1 = '" + jsonMember1 + '\'' + 
-			",2 = '" + jsonMember2 + '\'' + 
-			",3 = '" + jsonMember3 + '\'' + 
-			",4 = '" + jsonMember4 + '\'' + 
-			",5 = '" + jsonMember5 + '\'' + 
-			",nama_kuliner = '" + namaKuliner + '\'' + 
-			",deskripsi = '" + deskripsi + '\'' + 
-			",longitude = '" + longitude + '\'' + 
-			"}";
+		return "Kuliner{" +
+				"cf = '" + cf + '\'' +
+				",jarak = '" + jarak + '\'' +
+				",latitude = '" + latitude + '\'' +
+				",gambar = '" + gambar + '\'' +
+				",alamat = '" + alamat + '\'' +
+				",0 = '" + jsonMember0 + '\'' +
+				",1 = '" + jsonMember1 + '\'' +
+				",2 = '" + jsonMember2 + '\'' +
+				",3 = '" + jsonMember3 + '\'' +
+				",4 = '" + jsonMember4 + '\'' +
+				",5 = '" + jsonMember5 + '\'' +
+				",6 = '" + jsonMember6 + '\'' +
+				",nama_kuliner = '" + namaKuliner + '\'' +
+				",deskripsi = '" + deskripsi + '\'' +
+				",longitude = '" + longitude + '\'' +
+				"}";
 		}
 
 	@Override
@@ -182,12 +204,14 @@ public class Kuliner implements Parcelable {
 		dest.writeString(this.jarak);
 		dest.writeDouble(this.latitude);
 		dest.writeString(this.gambar);
+		dest.writeString(this.alamat);
 		dest.writeString(this.jsonMember0);
 		dest.writeString(this.jsonMember1);
 		dest.writeString(this.jsonMember2);
 		dest.writeString(this.jsonMember3);
 		dest.writeString(this.jsonMember4);
 		dest.writeString(this.jsonMember5);
+		dest.writeString(this.jsonMember6);
 		dest.writeString(this.namaKuliner);
 		dest.writeString(this.deskripsi);
 		dest.writeDouble(this.longitude);
@@ -201,12 +225,14 @@ public class Kuliner implements Parcelable {
 		this.jarak = in.readString();
 		this.latitude = in.readDouble();
 		this.gambar = in.readString();
+		this.alamat = in.readString();
 		this.jsonMember0 = in.readString();
 		this.jsonMember1 = in.readString();
 		this.jsonMember2 = in.readString();
 		this.jsonMember3 = in.readString();
 		this.jsonMember4 = in.readString();
 		this.jsonMember5 = in.readString();
+		this.jsonMember6 = in.readString();
 		this.namaKuliner = in.readString();
 		this.deskripsi = in.readString();
 		this.longitude = in.readDouble();
